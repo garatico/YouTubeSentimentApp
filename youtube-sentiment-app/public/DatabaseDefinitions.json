@@ -1,0 +1,89 @@
+{
+  "columns": [
+    {
+      "Column Name": "id:",
+      "Data Type": "Serial",
+      "Description": "Unique identifier for each video. Used as a primary key to distinguish one video from another."
+    },
+    {
+      "Column Name": "publishedAt:",
+      "Data Type": "Timestamp",
+      "Description": "Stores the date and time when the video was published on YouTube."
+    },
+    {
+      "Column Name": "channelId:",
+      "Data Type": "Text",
+      "Description": "Represents the unique identifier of the YouTube channel that uploaded the video. Establishes a relationship between videos and channels."
+    },
+    {
+      "Column Name": "channelTitle:",
+      "Data Type": "Text",
+      "Description": "The name of the YouTube channel that uploaded the video."
+    },
+    {
+      "Column Name": "title:",
+      "Data Type": "Text",
+      "Description": "This field stores the title of the video. It provides a concise description of the video's content."
+    },
+    {
+      "Column Name": "description:",
+      "Data Type": "Text",
+      "Description": "The description field contains a more detailed textual description of the video's content. It provides additional context to viewers."
+    },
+    {
+      "Column Name": "tags:",
+      "Data Type": "Text",
+      "Description": "Tags are keywords or phrases associated with the video. They help categorize and search for videos by topic or content."
+    },
+    {
+      "Column Name": "viewCount:",
+      "Data Type": "Integer",
+      "Description": "This field records the number of times the video has been viewed. It's an important metric for measuring a video's popularity."
+    },
+    {
+      "Column Name": "likeCount:",
+      "Data Type": "Integer",
+      "Description": "The number of likes received by the video. Likes indicate viewer approval and engagement with the content."
+    },
+    {
+      "Column Name": "favoriteCount:",
+      "Data Type": "Integer",
+      "Description": "This field may be found in older YouTube videos. It was used to track how many users added the video to their 'Favorites.'"
+    },
+    {
+      "Column Name": "commentCount:",
+      "Data Type": "Integer",
+      "Description": "This field counts both comments and replies on the video. It reflects the level of interaction and engagement with viewers."
+    },
+    {
+      "Column Name": "duration:",
+      "Data Type": "Text",
+      "Description": "Duration is the length of the video, typically in hours, minutes, and seconds. It provides information about the video's length."
+    },
+    {
+      "Column Name": "dimension:",
+      "Data Type": "Text",
+      "Description": "This field indicates the video's dimension and is usually '2D' for standard videos."
+    },
+    {
+      "Column Name": "definition:",
+      "Data Type": "Text",
+      "Description": "The resolution or quality of the video, whether it's in standard definition (SD) or high definition (HD)."
+    },
+    {
+      "Column Name": "topicCategories:",
+      "Data Type": "Text",
+      "Description": "These categories represent the primary topics or themes of the video. They help classify videos by subject matter."
+    },
+    {
+      "Column Name": "caption:",
+      "Data Type": "Boolean",
+      "Description": "This field indicates whether the video has closed captions or subtitles. If 'true,' it means the video includes captioning."
+    },
+    {
+      "Column Name": "licensedContent:",
+      "Data Type": "Boolean",
+      "Description": "A boolean field that shows whether the video has licensed content. If 'true,' it means the video contains copyrighted material with the appropriate licenses."
+    }
+  ]
+}

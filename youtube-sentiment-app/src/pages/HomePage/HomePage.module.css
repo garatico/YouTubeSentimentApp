@@ -1,0 +1,18 @@
+.home-title {
+    background-color: rgb(30, 132, 166);
+    padding: 25px;
+    margin: 50px;
+    border-radius: 20px;
+  }
+
+.home-description {
+    padding: 20px;
+    margin: 50px;
+    background-color: rgb(30, 132, 166);
+    border-radius: 20px;
+}
+.heading {
+    font-size: 24px;
+    color: darkblue;
+}
+  
