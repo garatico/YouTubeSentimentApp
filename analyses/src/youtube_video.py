@@ -1,7 +1,28 @@
 import json
 
 
-def return_video_data(file_path, data_function):
+def return_multiple_video_section_data(file_path, *data_functions):
+    all_video_data = {}  # Initialize an empty dictionary to store processed data
+
+    for func in data_functions:
+        all_video_data[func.__name__] = []  # Create an empty list for each function
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as json_file:
+            data = json.load(json_file)
+            for func in data_functions:
+                video_data = func(data)
+                if video_data is not None:
+                    all_video_data[func.__name__].append(video_data)
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON in {file_path}: {str(e)}")
+    except Exception as e:
+        print(f"An error occurred in {file_path}: {str(e)}")
+
+    return all_video_data
+
+
+def return_video_section_data(file_path, data_function):
     try:
         with open(file_path, "r", encoding="utf-8") as json_file:
             data = json.load(json_file)
@@ -27,6 +48,7 @@ def find_video_id(data):
     return None
 
 
+# Returns the snippet category of raw video JSON
 def find_snippet(data):
     # Initialize an empty list to store snippet data
     snippet_list = []
@@ -50,6 +72,7 @@ def find_snippet(data):
     return snippet_list
 
 
+# Returns the content details of raw video JSON
 def find_content_details(data):
     # Initialize an empty list to store snippet data
     content_list = []
@@ -73,6 +96,7 @@ def find_content_details(data):
     return content_list
 
 
+# Returns the statistics of raw video JSON
 def find_statistics(data):
     # Initialize an empty list to store statistics
     statistics_list = []
@@ -91,6 +115,7 @@ def find_statistics(data):
     return statistics_list
 
 
+# Returns the topic details of raw video JSON
 def find_topic_details(data):
     # Initialize an empty list to store statistics
     topic_details_list = []
