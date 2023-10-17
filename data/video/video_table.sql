@@ -5,7 +5,7 @@ CREATE TABLE videos (
 	
 	-- Within Snippet
 	publishedAt TIMESTAMP,
-	channelId text,
+	channelId TEXT,
     channelTitle text,
     title text,
     description text,
@@ -17,7 +17,7 @@ CREATE TABLE videos (
     definition text,
 	caption boolean,
     licensedContent boolean,
-	projection TEXT
+	projection TEXT,
 	
 	-- Within Statistics
 	viewCount integer,
@@ -26,8 +26,7 @@ CREATE TABLE videos (
     commentCount integer,
 
     -- Topic Details
-	topicCategories text[],
-	
+	topicCategories text[]
 );
 
 

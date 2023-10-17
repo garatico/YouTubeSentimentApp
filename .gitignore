@@ -2,7 +2,8 @@
 backend/node_modules/
 youtube-sentiment-node_modules/
 
-# Ignore the .env file in the "backend" folder
+# Ignore the .env files
+analyses/.env
 backend/.env
 
 # Ignore the data, docs, and .vscode directories
@@ -11,6 +12,6 @@ docs/mydocs/
 .vscode/
 
 # Ignore the __pycache__ directories within the "analyses" and "analyses/src" folders
-analyses/__pycache/
-analyses/src/__pycache/
+analyses/__pycache__/
+analyses/src/__pycache__/
 

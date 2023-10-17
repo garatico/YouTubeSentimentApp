@@ -1,5 +1,17 @@
 import json
 
+def parse_all_video_section_data(video_data):
+    column_values = {
+        'video_id': video_data['find_video_id'][0],
+        'publishedAt' : video_data['find_snippet'][0][0]['publishedAt'],
+        'channelId' : video_data['find_snippet'][0][0]['channelId']
+    }
+    return(column_values)
+
+def return_all_video_section_data(file_path):
+    return(return_multiple_video_section_data(
+        file_path, find_video_id, find_snippet, find_content_details, find_statistics, find_topic_details)
+        )
 
 def return_multiple_video_section_data(file_path, *data_functions):
     all_video_data = {}  # Initialize an empty dictionary to store processed data
