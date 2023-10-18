@@ -1,6 +1,9 @@
 import psycopg2
 
+
 def select_video(db_params):
+    connection = None  # Initialize the connection outside the try block
+
     try:
         # Establish a connection to the database
         connection = psycopg2.connect(**db_params)
@@ -25,5 +28,3 @@ def select_video(db_params):
             cursor.close()
             connection.close()
             print("Database connection is closed")
-
-

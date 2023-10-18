@@ -1,17 +1,44 @@
 import json
 
+
 def parse_all_video_section_data(video_data):
     column_values = {
-        'video_id': video_data['find_video_id'][0],
-        'publishedAt' : video_data['find_snippet'][0][0]['publishedAt'],
-        'channelId' : video_data['find_snippet'][0][0]['channelId']
+        # Video ID
+        "video_id": video_data["find_video_id"][0],
+        # Withing Snippet
+        "publishedAt": video_data["find_snippet"][0][0]["publishedAt"],
+        "channelId": video_data["find_snippet"][0][0]["channelId"],
+        "channelTitle": video_data["find_snippet"][0][0]["channelTitle"],
+        "title": video_data["find_snippet"][0][0]["title"],
+        "description": video_data["find_snippet"][0][0]["description"],
+        "tags": video_data["find_snippet"][0][0]["tags"],
+        "duration": video_data["find_content_details"][0][0]["duration"],
+        "dimension": video_data["find_content_details"][0][0]["dimension"],
+        "definition": video_data["find_content_details"][0][0]["definition"],
+        "caption": video_data["find_content_details"][0][0]["caption"],
+        "licensedContent": video_data["find_content_details"][0][0]["licensedContent"],
+        "projection": video_data["find_content_details"][0][0]["projection"],
+        # Within Statistics
+        "viewCount": video_data["find_statistics"][0][0]["viewCount"],
+        "likeCount": video_data["find_statistics"][0][0]["likeCount"],
+        "favoriteCount": video_data["find_statistics"][0][0]["favoriteCount"],
+        "commentCount": video_data["find_statistics"][0][0].get("commentCount", None),
+        # Topic Details
+        "topicCategories": video_data["find_topic_details"][0][0]["topicCategories"],
     }
-    return(column_values)
+    return column_values
+
 
 def return_all_video_section_data(file_path):
-    return(return_multiple_video_section_data(
-        file_path, find_video_id, find_snippet, find_content_details, find_statistics, find_topic_details)
-        )
+    return return_multiple_video_section_data(
+        file_path,
+        find_video_id,
+        find_snippet,
+        find_content_details,
+        find_statistics,
+        find_topic_details,
+    )
+
 
 def return_multiple_video_section_data(file_path, *data_functions):
     all_video_data = {}  # Initialize an empty dictionary to store processed data

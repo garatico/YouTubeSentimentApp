@@ -14,4 +14,5 @@ docs/mydocs/
 # Ignore the __pycache__ directories within the "analyses" and "analyses/src" folders
 analyses/__pycache__/
 analyses/src/__pycache__/
+analyses/src/video/__pycache__/
 
