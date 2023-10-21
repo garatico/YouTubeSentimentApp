@@ -1,42 +1,71 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import InputTextField from "./subcomponents/InputTextField";
+import Message from "./subcomponents/Message";
 
-import InputTextField from './InputTextField';
+// Import the functions
+import { makeApiCall } from "./utils/apiCalls";
+import { handleSuccess, handleNoData } from "./utils/responseHandlers";
+import { handleOtherError } from "./utils/errorHandlers";
 
-function VideoGetForm() {
-  const [videoId, setVideoId] = useState('');
-  const inputPlaceholder = 'Enter Video ID';
+import styles from "./VideoGetForm.module.css"; // Import the styles
 
-  const handleVideoIdChange = (event:any) => {
+// INTERFACE: Defines the expected shape of props VideoGetForm can receive.
+// Props:
+// endpoint: Represents the API endpoint for requests.
+interface VideoGetFormProps { endpoint: string; }
+
+function VideoGetForm({ endpoint }: VideoGetFormProps) {
+  // STATE: The following state variables are used to manage component state.
+  const inputPlaceholder = "Enter Video ID";
+  const [videoId, setVideoId] = useState("");
+  const [apiCallStatus, setApiCallStatus] = useState<"success" | "error" | "no-data" | "default">("default");
+
+  // EVENT HANDLER: Handles changes in the input field for Video ID.
+  const handleVideoIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVideoId(event.target.value);
   };
 
-  const handleSubmit = async (event:any) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     try {
-      // Send a GET request to the backend on port 3000 with the videoId as a query parameter
-      const response = await axios.get('http://localhost:3000/api/searchVideo/', {
-        params: {
-          videoId: videoId,
+      const response = await makeApiCall(endpoint, videoId);
+  
+      if (response.status === 200) {
+        if(response.data.status == "no-data") {
+          handleNoData(setApiCallStatus);
+        } else if(response.data.status == "success") {
+          handleSuccess(setApiCallStatus);
         }
-      });
-
-      // Handle the response data here, e.g., display it to the user
-      console.log('Response from backend:', response.data);
+      } else if (response.status === 404) {
+        handleNoData(setApiCallStatus);
+      } else {
+        handleOtherError(response.statusText, setApiCallStatus);
+      }
     } catch (error) {
-      // Handle errors, e.g., display an error message to the user
-      console.error('Error:', error);
+      handleOtherError(error, setApiCallStatus);
     }
   };
+  
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <InputTextField placeholder={inputPlaceholder} onChange={handleVideoIdChange} />
-        <button type="submit">Search</button>
+        <InputTextField
+          placeholder={inputPlaceholder}
+          onChange={handleVideoIdChange}
+        />
+        <button type="submit" className={styles["search-button"]}>Search</button>
       </form>
-    </div>
+      <Message
+      status={apiCallStatus}
+      message={
+        apiCallStatus === "success" ? "API call was successful" : 
+        apiCallStatus === "error" ? "API call failed. Please try again later." : 
+        apiCallStatus === "no-data" ? "No data found for the given video ID" : 
+        ""
+      }
+    /></div>
   );
 }
 

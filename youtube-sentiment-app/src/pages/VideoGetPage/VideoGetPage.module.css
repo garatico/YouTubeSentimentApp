@@ -1,0 +1,34 @@
+.page-content {
+    padding: 10px;
+    margin: 25px;
+    width: 25vw;
+    justify-content: center;
+}
+
+.video-get {
+    margin: 10px;
+    background-color: darkslateblue;
+    border-radius: 5px;
+}
+
+.comment-get {
+    margin: 10px;
+    background-color: darkviolet;
+    border-radius: 5px;
+}
+
+.caption-get {
+    margin: 10px;
+    background-color:  darkmagenta;
+    border-radius: 5px;
+}
+
+.video-get-form {
+    margin: 25px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.video-get-desc {
+    margin: 10px;
+}

@@ -1,0 +1,1 @@
+SELECT tags FROM videos;

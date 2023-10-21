@@ -6,6 +6,8 @@ from src.video.video_insert import insert_video
 from src.videos_manifest import list_files_in_directory
 from src.video.youtube_video import *
 
+from src.video.video_tag import *
+
 
 video_raw_directory = ".././data/raw/videos/"
 videos_manifest = list_files_in_directory(video_raw_directory)
@@ -23,5 +25,10 @@ db_params = {
     "password": config("DB_PASSWORD"),  # Use config to retrieve the password from .env
 }
 
-select_video(db_params)
-insert_video(db_params, full_video_columns)
+# select_video(db_params)
+# insert_video(db_params, full_video_columns)
+
+
+tags_corpus = create_tags_corpus(db_params, "../data/video/video_read_tags.SQL")
+
+print(tags_corpus)
