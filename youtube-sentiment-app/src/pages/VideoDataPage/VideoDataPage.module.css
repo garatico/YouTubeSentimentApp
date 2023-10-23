@@ -9,25 +9,30 @@
     font-size: 32px;
 }
 
-.files-ul {
-    margin: 20px;
-    padding: 5px;
-    background-color: blueviolet;
-    border-radius: 20px;
-}
-
-.files-li {
-    font-size: 24px;
-    margin: 10px;
-    background-color: rgb(75, 10, 75);
+.files-table {
+    background-color: rgb(85, 0, 85);
     border-radius: 10px;
-    list-style: none;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
-h3 {
-    margin-left: 10px;
-    background-color: black;
+/* Set different widths for columns using fractions */
+.files-table td:nth-child(1) {
+    width: 1fr; /* First column occupies 1 fraction of available space */
+    background-color: darkslategray;
 }
+  
+.files-table td:nth-child(2) {
+    width: 2fr; /* Second column occupies 2 fractions of available space */
+    background-color: darkcyan;
+}
+  
+.files-table td:nth-child(3) {
+    width: 1fr; /* Third column occupies 1 fraction of available space */
+    background-color: darkslateblue;
+}
+
+  
 
 .file-list-div {
     margin: 20px;

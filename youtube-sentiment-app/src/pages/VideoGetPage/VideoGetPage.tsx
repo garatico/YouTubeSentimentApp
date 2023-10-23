@@ -17,12 +17,12 @@ function VideoGetPage() {
             <VideoGetForm endpoint="searchVideo" />
           </div>
         </div>
-        <div className={styles["comment-get"]}>
+        <div className={styles["comment-threads-get"]}>
           <div className={styles["video-get-desc"]}>
             <p>Find YouTube Comments: </p>
           </div>
           <div className={styles["video-get-form"]}>
-            <VideoGetForm endpoint="searchComment" />
+            <VideoGetForm endpoint="searchCommentThreads" />
           </div>
         </div>
         <div className={styles["caption-get"]}>

@@ -1,25 +1,50 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs'); // Import the 'fs' module
-const path = require('path'); // Import the 'path' module
+const fs = require('fs');
+const path = require('path');
 
 router.get('/', (req, res) => {
-  const currentDirectory = process.cwd(); // Get the current working directory
-
-  // Get the parent directory path by using path.dirname
+  const currentDirectory = process.cwd();
   const parentDirectory = path.dirname(currentDirectory);
 
-  // Define the target directory path
-  const targetDirectory = path.join(parentDirectory, 'data', 'raw', 'videos');
+  const videosDirectory = path.join(parentDirectory, 'data', 'raw', 'videos');
+  const captionsListDirectory = path.join(parentDirectory, 'data', 'raw', 'captions-list');
+  const commentThreadsDirectory = path.join(parentDirectory, 'data', 'raw', 'comment-threads');
 
-  // Read the contents of the target directory
-  fs.readdir(targetDirectory, (err, files) => {
-    if (err) {
-      console.error('Error reading target directory:', err);
+  // Create an object to store the data
+  const data = {
+    videoFiles: [],
+    captionListFiles: [],
+    commentThreads: [],
+  };
+
+  // Read the contents of the video directory
+  fs.readdir(videosDirectory, (videoErr, videoFiles) => {
+    if (videoErr) {
+      console.error('Error reading video directory:', videoErr);
       res.status(500).json({ error: 'Internal server error' });
     } else {
-      // Send the list of files and directories as a JSON response
-      res.json({ files });
+      data.videoFiles = videoFiles;
+      // Read the caption directory
+      fs.readdir(captionsListDirectory, (captionErr, captionsListFiles) => {
+        if (captionErr) {
+          console.error('Error reading caption directory:', captionErr);
+          res.status(500).json({ error: 'Internal server error' });
+        } else {
+          data.captionListFiles = captionsListFiles;
+          // Read the comment threads directory
+          fs.readdir(commentThreadsDirectory, (commentThreadsErr, commentThreadsFiles) => {
+            if (commentThreadsErr) {
+              console.error('Error reading comment-threads directory:', commentThreadsErr);
+              res.status(500).json({ error: 'Internal server error' });
+            } else {
+              data.commentThreads = commentThreadsFiles;
+              // Send all the data as a JSON response
+              res.json(data);
+            }
+          });
+        }
+      });
     }
   });
 });

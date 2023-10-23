@@ -11,7 +11,7 @@ def parse_all_video_section_data(video_data):
         "channelTitle": video_data["find_snippet"][0][0]["channelTitle"],
         "title": video_data["find_snippet"][0][0]["title"],
         "description": video_data["find_snippet"][0][0]["description"],
-        "tags": video_data["find_snippet"][0][0]["tags"],
+        "tags": video_data["find_snippet"][0][0].get("tags", []),  # Making "tags" optional with default empty list
         "duration": video_data["find_content_details"][0][0]["duration"],
         "dimension": video_data["find_content_details"][0][0]["dimension"],
         "definition": video_data["find_content_details"][0][0]["definition"],

@@ -1,5 +1,13 @@
 import psycopg2
 
+def insert_multiple_video(db_params, videos_manifest, video_raw_directory, return_all_video_section_data, parse_all_video_section_data):
+    # Loop through videos_manifest and insert each video into the database
+    for video_file in videos_manifest:
+        file_path = f"{video_raw_directory}{video_file}"
+        full_video = return_all_video_section_data(file_path)
+        full_video_columns = parse_all_video_section_data(full_video)
+        insert_video(db_params, full_video_columns)
+
 def insert_video(db_params, column_values):
     try:
         # Establish a connection to the database

@@ -5,15 +5,15 @@ const fs = require("fs");
 
 const key = process.env.API_KEY;
 
-async function handleVideoRequest(req, res) {
+async function handleCaptionListRequest(req, res) {
   try {
     const videoId = req.query.videoId;
-    const part = "snippet%2CcontentDetails%2Cstatistics%2CtopicDetails";
-    const videoAPIurl = `https://youtube.googleapis.com/youtube/v3/videos?part=${part}&id=${videoId}&key=${key}`;
+    const part = "snippet";
+    const captionsAPIurl = `https://youtube.googleapis.com/youtube/v3/captions?part=${part}&videoId=${videoId}&key=${key}`
 
     // Make a GET request to the YouTube API
-    const response = await axios.get(videoAPIurl);
-    const saveDirectory = path.join("..", "data", "raw", "videos");
+    const response = await axios.get(captionsAPIurl);
+    const saveDirectory = path.join("..", "data", "raw", "captions-list");
 
     // Create the directory if it doesn't exist
     if (!fs.existsSync(saveDirectory)) { fs.mkdirSync(saveDirectory, { recursive: true }); }
@@ -22,12 +22,10 @@ async function handleVideoRequest(req, res) {
     if (response.status === 200) {
       const videoData = response.data;
       if (videoData && videoData.items && videoData.items.length > 0) {
-        const fetchTimestamp = new Date().toISOString(); // Generate a timestamp
-        videoData.fetchTimestamp = fetchTimestamp; // Add timestamp to the JSON data
         const filePath = path.join(saveDirectory, `${videoId}.json`);
         fs.writeFileSync(filePath, JSON.stringify(videoData));
         res.status(200).json({ 
-          message: `Video data saved successfully \n Video data saved to ${filePath}`, 
+          message: `Caption data saved successfully \n Caption data saved to ${filePath}`, 
           status: "success" 
         });
       } else {
@@ -49,4 +47,4 @@ async function handleVideoRequest(req, res) {
   }
 }
 
-module.exports = { handleVideoRequest };
+module.exports = { handleCaptionListRequest };

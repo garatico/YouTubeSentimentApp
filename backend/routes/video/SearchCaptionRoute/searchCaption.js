@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+const { handleCaptionListRequest } = require("./utils/captionRequestHandler");
+
 router.get('/', async (req, res) => {
-    const videoId = req.query.videoId;
-    res.send(videoId);
+    handleCaptionListRequest(req, res);
 });
 
 

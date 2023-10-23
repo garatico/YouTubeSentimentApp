@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+const { handleCommentThreadsRequest } = require("./utils/commentThreadRequestHandler");
+
 router.get('/', async (req, res) => {
-    const videoId = req.query.videoId;
-    res.send(videoId);
+    handleCommentThreadsRequest(req, res);
 });
 
 
