@@ -1,34 +1,29 @@
 .page-content {
     padding: 10px;
     margin: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
+    gap: 10px; /* Add some spacing between grid items */
+}
+
+/* Increase the width of each column */
+.video-get-component {
+    margin: 10px;
+    border-radius: 5px;
     width: 25vw;
-    justify-content: center;
 }
 
-.video-get {
-    margin: 10px;
-    background-color: darkslateblue;
-    border-radius: 5px;
-}
-
-.comment-threads-get {
-    margin: 10px;
-    background-color: darkviolet;
-    border-radius: 5px;
-}
-
-.caption-get {
-    margin: 10px;
-    background-color:  darkmagenta;
-    border-radius: 5px;
-}
+#video-get { background-color: darkslateblue; }
+#comment-threads-get { background-color: darkviolet; }
+#caption-get { background-color:  darkmagenta; }
+#all-get { background-color:  darkred; }
 
 .video-get-form {
-    margin: 25px;
+    margin: 10px;
     padding: 10px;
-    border-radius: 10px;
 }
 
 .video-get-desc {
-    margin: 10px;
+    margin-left: 10px;
+    font-size: 24px;
 }

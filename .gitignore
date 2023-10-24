@@ -15,4 +15,6 @@ docs/mydocs/
 analyses/__pycache__/
 analyses/src/__pycache__/
 analyses/src/video/__pycache__/
+analyses/src/comment-threads/__pycache__/
+analyses/.ipynb_checkpoints/
 

@@ -3,3 +3,10 @@
     background-color: rgb(0, 47, 70);
     border-radius: 5px;
 }
+
+.video-form {
+    background-color: burlywood;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}

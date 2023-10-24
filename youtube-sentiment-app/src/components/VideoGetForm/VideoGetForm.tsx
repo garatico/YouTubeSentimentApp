@@ -12,9 +12,9 @@ import styles from "./VideoGetForm.module.css"; // Import the styles
 // INTERFACE: Defines the expected shape of props VideoGetForm can receive.
 // Props:
 // endpoint: Represents the API endpoint for requests.
-interface VideoGetFormProps { endpoint: string; }
+interface VideoGetFormProps { endpoints: string[]; }
 
-function VideoGetForm({ endpoint }: VideoGetFormProps) {
+function VideoGetForm({ endpoints }: VideoGetFormProps) {
   // STATE: The following state variables are used to manage component state.
   const inputPlaceholder = "Enter Video ID";
   const [videoId, setVideoId] = useState("");
@@ -25,48 +25,40 @@ function VideoGetForm({ endpoint }: VideoGetFormProps) {
     setVideoId(event.target.value);
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const makeRequests = async () => {
+    for (const endpoint of endpoints) {
+      try {
+        const response = await makeApiCall(endpoint, videoId);
   
-    try {
-      const response = await makeApiCall(endpoint, videoId);
-  
-      if (response.status === 200) {
-        if(response.data.status == "no-data") {
+        if (response.status === 200) {
+          if (response.data.status === "no-data") {
+            handleNoData(setApiCallStatus);
+          } else if (response.data.status === "success") {
+            handleSuccess(setApiCallStatus);
+          }
+        } else if (response.status === 404) {
           handleNoData(setApiCallStatus);
-        } else if(response.data.status == "success") {
-          handleSuccess(setApiCallStatus);
+        } else {
+          handleOtherError(response.statusText, setApiCallStatus);
         }
-      } else if (response.status === 404) {
-        handleNoData(setApiCallStatus);
-      } else {
-        handleOtherError(response.statusText, setApiCallStatus);
+      } catch (error) {
+        handleOtherError(error, setApiCallStatus);
       }
-    } catch (error) {
-      handleOtherError(error, setApiCallStatus);
     }
   };
   
-
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <InputTextField
-          placeholder={inputPlaceholder}
-          onChange={handleVideoIdChange}
-        />
-        <button type="submit" className={styles["search-button"]}>Search</button>
+    <div className={styles["video-form"]}>
+      <form>
+        <InputTextField placeholder={inputPlaceholder} onChange={handleVideoIdChange} />
+        <button type="button" onClick={makeRequests} className={styles["search-button"]}>
+          Search
+        </button>
       </form>
-      <Message
-      status={apiCallStatus}
-      message={
-        apiCallStatus === "success" ? "API call was successful" : 
-        apiCallStatus === "error" ? "API call failed. Please try again later." : 
-        apiCallStatus === "no-data" ? "No data found for the given video ID" : 
-        ""
-      }
-    /></div>
+      <Message status={apiCallStatus}/>
+    </div>
   );
+  
 }
 
 export default VideoGetForm;

@@ -9,28 +9,36 @@ function VideoGetPage() {
     <div>
       <Navbar />
       <div className={styles["page-content"]}>
-        <div className={styles["video-get"]}>
+        <div className={styles["video-get-component"]} id={styles["video-get"]}>
           <div className={styles["video-get-desc"]}>
-            <p>Find YouTube Video Statistics: </p>
+            <p>YouTube Video Statistics: </p>
           </div>
           <div className={styles["video-get-form"]}>
-            <VideoGetForm endpoint="searchVideo" />
+            <VideoGetForm endpoints={["searchVideo"]} />
           </div>
         </div>
-        <div className={styles["comment-threads-get"]}>
+        <div className={styles["video-get-component"]} id={styles["comment-threads-get"]}>
           <div className={styles["video-get-desc"]}>
-            <p>Find YouTube Comments: </p>
+            <p>YouTube Comments: </p>
           </div>
           <div className={styles["video-get-form"]}>
-            <VideoGetForm endpoint="searchCommentThreads" />
+            <VideoGetForm endpoints={["searchCommentThreads"]} />
           </div>
         </div>
-        <div className={styles["caption-get"]}>
+        <div className={styles["video-get-component"]} id={styles["caption-get"]}>
           <div className={styles["video-get-desc"]}>
-            <p>Find YouTube Captions: </p>
+            <p>YouTube Captions: </p>
           </div>
           <div className={styles["video-get-form"]}>
-            <VideoGetForm endpoint="searchCaption" />
+            <VideoGetForm endpoints={["searchCaption"]} />
+          </div>
+        </div>
+        <div className={styles["video-get-component"]} id={styles["all-get"]}>
+          <div className={styles["video-get-desc"]}>
+            <p>All YouTube Video Data: </p>
+          </div>
+          <div className={styles["video-get-form"]}>
+            <VideoGetForm endpoints={["searchVideo", "searchCommentThreads", "searchCaption"]} />
           </div>
         </div>
       </div>

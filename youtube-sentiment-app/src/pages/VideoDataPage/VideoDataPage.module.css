@@ -9,31 +9,12 @@
     font-size: 32px;
 }
 
-.files-table {
-    background-color: rgb(85, 0, 85);
+.manifest-buttons-container {
+    display: flex;
+    background-color: darkblue;
     border-radius: 10px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-/* Set different widths for columns using fractions */
-.files-table td:nth-child(1) {
-    width: 1fr; /* First column occupies 1 fraction of available space */
-    background-color: darkslategray;
-}
-  
-.files-table td:nth-child(2) {
-    width: 2fr; /* Second column occupies 2 fractions of available space */
-    background-color: darkcyan;
-}
-  
-.files-table td:nth-child(3) {
-    width: 1fr; /* Third column occupies 1 fraction of available space */
-    background-color: darkslateblue;
-}
-
-  
-
-.file-list-div {
-    margin: 20px;
-}
+ }
+ 
+ .video-manifest {
+    margin-bottom: 20px;
+ }

@@ -1,36 +1,42 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar/Navbar";
-
-import { generateRows } from "./utils/GenerateRows"; // Import the generateRows function
-
+import generateManifestTabs from "./utils/GenerateManifestButtons";
+import generateVideoManifestTable from "./utils/GenerateTable";
 import styles from "./VideoDataPage.module.css"; // Import the styles
 
+const manifestTabs = ['Videos', 'Comment Threads', 'Captions']
+
 interface VideoData {
-  videoFiles: string[];
-  captionListFiles: string[];
-  commentThreads: string[];
+  filename: string;
+  created_at: string;
+  format: string;
 }
 
 function VideoDataPage() {
-  const [videoData, setVideoData] = useState<VideoData>({
-    videoFiles: [],
-    captionListFiles: [],
-    commentThreads: [],
-  });
+  const [videoManifest, setVideoManifest] = useState<VideoData[]>([]);
 
-  const fetchVideoData = async () => {
+  const fetchVideoManifest = async () => {
     try {
-      const response = await axios.get<VideoData>("http://localhost:3000/api/viewVideoData");
-      console.log(response.data);
-      setVideoData(response.data);
+      const response = await axios.get("http://localhost:3000/api/viewVideoData/readVideoManifest");
+      setVideoManifest(response.data);
     } catch (error) {
       console.error("Error fetching video data:", error);
     }
   };
 
+  const refreshVideoManifest = async () => {
+    try {
+      await axios.post("http://localhost:3000/api/viewVideoData/updateVideoManifest");
+      fetchVideoManifest();
+    } catch (error) {
+      console.error("Error refreshing manifest:", error);
+    }
+  }
+
   useEffect(() => {
-    fetchVideoData();
+    // Call the fetchVideoManifest function when the component mounts
+    fetchVideoManifest();
   }, []);
 
   return (
@@ -43,24 +49,15 @@ function VideoDataPage() {
           </h3>
         </div>
 
-        <div className="temp-manifests">
-
+        <div className={styles["manifest-buttons-container"]}>
+          {generateManifestTabs(manifestTabs)}
         </div>
 
-        <div>
-          <div className={styles["files-list-div"]}>
-            <table className={styles["files-table"]}>
-              <thead>
-                <tr>
-                  <th>Videos</th>
-                  <th>Captions List</th>
-                  <th>Comment Threads</th>
-                </tr>
-              </thead>
-              <tbody>{generateRows(videoData)}</tbody>
-            </table>
-          </div>
+        <div className={styles["video-manifest"]}>
+          <button onClick={refreshVideoManifest}>Refresh Manifest</button>
+          {generateVideoManifestTable({videoManifest})}
         </div>
+
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const searchChannelRoute = require('./routes/searchChannel');
 const searchVideoRoute = require('./routes/video/SearchVideoRoute/searchVideo');
 const searchCaptionRoute = require('./routes/video/SearchCaptionRoute/searchCaption');
 const searchCommentThreadsRoute = require('./routes/video/SearchCommentThreadsRoute/searchCommentThreads');
-const viewVideoData = require('./routes/viewVideoData');
+const viewVideoData = require('./routes/video/ViewVideoData/viewVideoData');
 
 app.use('/api/searchChannel', searchChannelRoute);
 app.use('/api/searchVideo', searchVideoRoute);
@@ -24,6 +24,4 @@ app.use('/api/searchCommentThreads', searchCommentThreadsRoute);
 app.use('/api/searchCaption', searchCaptionRoute);
 app.use('/api/viewVideoData', viewVideoData);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.listen(port, () => { console.log(`Example app listening on port ${port}`) })

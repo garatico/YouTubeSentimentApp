@@ -1,16 +1,19 @@
 import json
 import os
 
+from find_in_comment_thread import *
+
 print(os.getcwd())
 
-file_path = "./../data/raw/comment-threads/bxIF9X9k2IE.json"
+page_num = 1
+file_path = f'./../data/raw/comment-threads/bxIF9X9k2IE/bxIF9X9k2IE PAGE{page_num}.json'
 
 try:
     with open(file_path, "r", encoding="utf-8") as json_file:
         data = json.load(json_file)
         
         item = data.get("items", [{}])[0]
-        comment_thread_id = item.get("id")
+        comment_thread_id = find_comment_thread_id(item)
         
         snippet = item.get("snippet", {})
         channelId = snippet.get("channelId")
@@ -32,7 +35,8 @@ try:
             "textDisplay": textDisplay,
             "textOriginal": textOriginal,
             "publishedAt": publishedAt,
-            "updatedAt": updatedAt
+            "updatedAt": updatedAt,
+            "totalReplyCount": totalReplyCount
             # parentId = Only for replies to comment
             # likeCount = 
             # canReply = 
