@@ -1,6 +1,5 @@
 .page-content {
-    padding: 10px;
-    margin: 25px;
+    margin: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
     gap: 10px; /* Add some spacing between grid items */
@@ -10,13 +9,13 @@
 .video-get-component {
     margin: 10px;
     border-radius: 5px;
-    width: 25vw;
+    width: 20vw;
 }
 
 #video-get { background-color: darkslateblue; }
-#comment-threads-get { background-color: darkviolet; }
+#comment-threads-get { background-color: rgb(170, 67, 214); }
 #caption-get { background-color:  darkmagenta; }
-#all-get { background-color:  darkred; }
+#all-get { background-color:  rgb(59, 0, 98); }
 
 .video-get-form {
     margin: 10px;
@@ -24,6 +23,7 @@
 }
 
 .video-get-desc {
-    margin-left: 10px;
+    margin-left: 20px;
+    font-style: italic;
     font-size: 24px;
 }

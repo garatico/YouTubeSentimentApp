@@ -33,6 +33,8 @@ async function handleCommentThreadsRequest(req, res) {
         const videoData = response.data;
 
         if (videoData && videoData.items && videoData.items.length > 0) {
+          const fetchTimestamp = new Date().toISOString(); // Generate a timestamp
+          videoData.fetchTimestamp = fetchTimestamp; // Add timestamp to the JSON data
           const filePath = path.join(saveDirectory, `${videoId} PAGE${page}.json`);
           fs.writeFileSync(filePath, JSON.stringify(videoData));
 

@@ -1,0 +1,36 @@
+INSERT INTO comments (
+    comment_id, 
+    channelId, 
+    videoId, 
+    canReply, 
+    totalReplyCount, 
+    isPublic, 
+    textDisplay, 
+    textOriginal, 
+    authorDisplayName, 
+    authorChannelId, 
+    canRate, 
+    viewerRating, 
+    likeCount, 
+    publishedAt, 
+    updatedAt, 
+    parentId
+)
+VALUES (
+    'dummy_comment_id', 
+    'dummy_channelId', 
+    'dummy_videoId', 
+    true, 
+    10, 
+    true, 
+    'This is a dummy comment', 
+    'This is the original text of the dummy comment', 
+    'Dummy Author', 
+    'dummy_authorChannelId', 
+    true, 
+    'none', 
+    5, 
+    '2023-10-24 12:00:00', 
+    '2023-10-24 12:00:00', 
+    'dummy_parentId'
+);

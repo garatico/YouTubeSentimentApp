@@ -28,7 +28,6 @@ def parse_all_video_section_data(video_data):
     }
     return column_values
 
-
 def return_all_video_section_data(file_path):
     return return_multiple_video_section_data(
         file_path,
@@ -38,7 +37,6 @@ def return_all_video_section_data(file_path):
         find_statistics,
         find_topic_details,
     )
-
 
 def return_multiple_video_section_data(file_path, *data_functions):
     all_video_data = {}  # Initialize an empty dictionary to store processed data
@@ -60,7 +58,6 @@ def return_multiple_video_section_data(file_path, *data_functions):
 
     return all_video_data
 
-
 def return_video_section_data(file_path, data_function):
     try:
         with open(file_path, "r", encoding="utf-8") as json_file:
@@ -76,7 +73,6 @@ def return_video_section_data(file_path, data_function):
         print(f"An error occurred: {str(e)}")
         return
 
-
 # Returns the Video ID of a raw video JSON
 def find_video_id(data):
     if "items" in data:
@@ -85,7 +81,6 @@ def find_video_id(data):
             if "id" in item:
                 return item["id"]
     return None
-
 
 # Returns the snippet category of raw video JSON
 def find_snippet(data):
