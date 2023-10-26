@@ -1,5 +1,11 @@
 import psycopg2
 
+def insert_pages_of_comments(file_paths, db_params, return_all_comment_thread_data):
+    for file_path in file_paths:
+        comments_full = return_all_comment_thread_data(file_path)
+        for comment in comments_full:
+            insert_comment(db_params, comment)
+
 def insert_comment(db_params, column_values):
     try:
         # Establish a connection to the database

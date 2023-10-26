@@ -1,4 +1,28 @@
 import json
+import os
+
+def list_file_paths(path, ids, filenames):
+    file_paths = []
+
+    for video_id, filename in zip(ids, filenames):
+        file_path = os.path.join(path, video_id, filename)
+        file_paths.append(file_path)
+
+    return file_paths
+
+def list_directories(parent_directory):
+    # Create an empty list to store directory names
+    directories = []
+
+    # Iterate through the contents of the parent directory
+    for item in os.listdir(parent_directory):
+        item_path = os.path.join(parent_directory, item)
+
+        # Check if the item is a directory
+        if os.path.isdir(item_path):
+            directories.append(item)
+
+    return directories
 
 def process_comment(comment):
     snippet = comment["snippet"]

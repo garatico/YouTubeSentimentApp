@@ -21,7 +21,7 @@ def list_files_in_directory(directory_path):
 def create_raw_comments_manifest_csv(manifest_file_path, directory_path):
     # Create a CSV file for the manifest
     with open(manifest_file_path, 'w', newline='') as csvfile:
-        fieldnames = ['filename', 'created_at', 'format']
+        fieldnames = ['filename', 'video_id', 'created_at', 'format']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         # Write the header row
@@ -37,8 +37,15 @@ def create_raw_comments_manifest_csv(manifest_file_path, directory_path):
                     # Extract the "created_at" timestamp from the individual JSON file
                     created_at = get_created_at_timestamp(root, comment_file)
 
+                    # Use os.path.basename to get just the filename without the directory
+                    filename = os.path.basename(comment_file)
+
+                    # Split the filename at " PAGE" to get the video_id
+                    video_id = filename.split(" PAGE")[0]
+
                     writer.writerow({
-                        'filename': os.path.join(root, comment_file),
+                        'filename': filename,
+                        'video_id': video_id,
                         'created_at': created_at,
                         'format': file_format
                     })
@@ -84,7 +91,6 @@ def get_created_at_timestamp(directory_path, video_file):
             return data.get("fetchTimestamp", "N/A")
 
     return "N/A"  # Return a default value if the JSON file doesn't exist or lacks the timestamp
-
 
 # Usage
 manifest_file_path_csv = "./../data/raw/raw_comments_manifest.csv"  # Specify the path for the manifest CSV
