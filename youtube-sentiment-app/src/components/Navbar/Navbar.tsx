@@ -5,8 +5,6 @@ function Navbar() {
   return (
     <nav className={styles["navbar"]}>
       <div className={styles["navbar-container"]}>
-        {" "}
-        {/* Add the class here */}
         <ul className={styles["navbar-links"]}>
           <li>
             <a href="/">Home</a>
@@ -31,8 +29,8 @@ function Navbar() {
           </li>
         </ul>
         <div className={styles["navbar-links"]}>
-          <OutputHeader />
         </div>
+        <OutputHeader />
       </div>
     </nav>
   );

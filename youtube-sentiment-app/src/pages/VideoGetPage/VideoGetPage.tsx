@@ -1,10 +1,14 @@
 // import React from 'react';
+import { useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import VideoGetForm from "../../components/VideoGetForm/VideoGetForm";
 
 import styles from "./VideoGetPage.module.css"; // Import the styles
 
 function VideoGetPage() {
+  useEffect(() => {
+    document.title = 'VIDEO';
+  }, []);
   return (
     <div>
       <Navbar />

@@ -52,8 +52,7 @@ def create_raw_comments_manifest_csv(manifest_file_path, directory_path):
 
 
 def create_raw_comments_manifest_json(manifest_file_path, directory_path):
-    # Create a list to store comment information
-    comment_manifest = []
+    manifest_data = []
 
     # Recursively process all files in the directory and its subdirectories
     for root, dirs, files in os.walk(directory_path):
@@ -65,19 +64,24 @@ def create_raw_comments_manifest_json(manifest_file_path, directory_path):
                 # Extract the "created_at" timestamp from the individual JSON file
                 created_at = get_created_at_timestamp(root, comment_file)
 
-                # Create a dictionary for the comment entry
-                comment_entry = {
-                    'filename': os.path.join(root, comment_file),
+                # Use os.path.basename to get just the filename without the directory
+                filename = os.path.basename(comment_file)
+
+                # Split the filename at " PAGE" to get the video_id
+                video_id = filename.split(" PAGE")[0]
+
+                manifest_entry = {
+                    'filename': filename,
+                    'video_id': video_id,
                     'created_at': created_at,
                     'format': file_format
                 }
 
-                # Append the comment entry to the manifest list
-                comment_manifest.append(comment_entry)
+                manifest_data.append(manifest_entry)
 
-    # Write the manifest to a JSON file
+    # Write the manifest data to a JSON file
     with open(manifest_file_path, 'w') as json_file:
-        json.dump(comment_manifest, json_file, indent=4)
+        json.dump(manifest_data, json_file)
 
 
 def get_created_at_timestamp(directory_path, video_file):

@@ -1,10 +1,13 @@
-// import React from 'react';
+import { useEffect } from 'react';
 
 import Navbar from "../../components/Navbar/Navbar";
 
 import styles from "./HomePage.module.css"; // Import the styles
 
 function HomePage() {
+  useEffect(() => {
+    document.title = 'HOME';
+  }, []);
   return (
     <div>
       <Navbar />

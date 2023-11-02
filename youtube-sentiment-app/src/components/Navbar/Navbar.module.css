@@ -6,16 +6,16 @@
   top: 0; /* Stick it to the top */
   left: 0; /* Align it to the left */
   right: 0; /* Align it to the right */
-  padding: 5px 0; /* Add some padding */
+  padding: 10px 0; /* Add some padding */
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   z-index: 100; /* Use z-index to ensure the navbar appears above other page elements. */
 } 
 
   /* Navbar Container */
 .navbar-container {
-  max-width: 1200px; /* Maximum width of the content */
+  max-width: 1500px; /* Maximum width of the content */
   max-height: 50px;
   width: 100%; /* Full width of the parent container */
   display: flex;
@@ -27,17 +27,19 @@
 .navbar-links {
   list-style: none;
   display: flex;
-  gap: 10px; /* Adjust the spacing between links */
+  gap: 5px; /* Adjust the spacing between links */
 }
   
 /* Navbar Link Style */
 .navbar-links li a {
   text-decoration: none;
   color: #fff; /* Text color for links */
+  padding: 5px;
 }
   
-/* Style for active link (optional) */
+/* Navbar Link Hover Effect */
 .navbar-links li a:hover {
-  color: #ff6f61; /* Hover color for links */
+  color: #ff6f61;
+  background-color: #4a4a4a; /* Background color change on hover */
+  transition: color 0.2s, background-color 0.2s; /* Smooth transition */
 }
-  

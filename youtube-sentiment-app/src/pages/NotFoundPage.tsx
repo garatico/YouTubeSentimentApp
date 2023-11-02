@@ -1,6 +1,10 @@
+import { useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 
 const NotFoundPage = () => {
+  useEffect(() => {
+    document.title = '404';
+  }, []);
   return (
     <div>
       <Navbar />

@@ -23,7 +23,7 @@ def create_raw_videos_manifest_csv(manifest_file_path, directory_path):
 
     # Create a CSV file for the manifest
     with open(manifest_file_path, 'w', newline='') as csvfile:
-        fieldnames = ['filename', 'created_at', 'format']
+        fieldnames = ['filename', 'video_id', 'created_at', 'format']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         # Write the header row
@@ -37,8 +37,12 @@ def create_raw_videos_manifest_csv(manifest_file_path, directory_path):
             # Extract the "created_at" timestamp from the individual JSON file
             created_at = get_created_at_timestamp(directory_path, video_file)
 
+            # Split the filename at " PAGE" to get the video_id
+            video_id = video_file.split(" PAGE")[0]
+
             writer.writerow({
                 'filename': video_file,
+                'video_id': video_id,
                 'created_at': created_at,
                 'format': file_format
             })
@@ -57,9 +61,13 @@ def create_raw_videos_manifest_json(manifest_file_path, directory_path):
         # Extract the "created_at" timestamp from the individual JSON file
         created_at = get_created_at_timestamp(directory_path, video_file)
 
+        # Split the filename at " PAGE" to get the video_id
+        video_id = video_file.split(" PAGE")[0]
+
         # Create a dictionary for the video entry
         video_entry = {
             'filename': video_file,
+            'video_id': video_id,
             'created_at': created_at,
             'format': file_format
         }

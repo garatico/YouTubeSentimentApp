@@ -5,16 +5,41 @@
 
 .page-description {
     margin: 20px;
-    font-style: italic;
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .manifest-buttons-container {
     display: flex;
-    background-color: darkblue;
+    background-color: #007BFF; /* A shade of blue for the buttons container */
+    border: 3px solid #ddd; /* Add a border for separation */
     border-radius: 10px;
- }
- 
- .video-manifest {
+    gap: 5px;
+    padding: 10px;
+}
+
+.manifest-table-container {
     margin-bottom: 20px;
- }
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #FF6B6B; /* A shade of red for the selected manifest background */
+    border: 3px solid #ddd; /* Add a border for separation */
+}
+
+.manifest-table-container table {
+    white-space: nowrap;
+    width: 100%; /* Expand the table to fill the container */
+}
+
+.refresh-manifest {
+    background-color: #28A745; /* A shade of green for the refresh button */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 8px;
+    border-radius: 10px;
+}
+
+.refresh-manifest:focus {
+    outline: none; /* Remove the default focus outline */
+}

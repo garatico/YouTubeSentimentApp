@@ -6,6 +6,7 @@ function DocumentationPage() {
   const [data, setData] = useState({ columns: [] }); // Initialize data with an empty array
 
   useEffect(() => {
+    document.title = 'DOCUMENTATION';
     // Replace with the correct path to your DatabaseDefinitions.json file
     fetch("/DatabaseDefinitions.json")
       .then((response) => response.json())

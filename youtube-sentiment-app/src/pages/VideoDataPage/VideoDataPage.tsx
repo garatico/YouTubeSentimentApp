@@ -1,63 +1,58 @@
+// React Imports
 import { useEffect, useState } from "react";
-import axios from "axios";
+// Component Imports
 import Navbar from "../../components/Navbar/Navbar";
 import generateManifestTabs from "./utils/GenerateManifestButtons";
-import generateVideoManifestTable from "./utils/GenerateTable";
-import styles from "./VideoDataPage.module.css"; // Import the styles
+import generateManifestTable from "./utils/GenerateTable";
+// Function Imports
+import { fetchManifestData, refreshManifest } from "./utils/manifestAPI";
 
-const manifestTabs = ['Videos', 'Comment Threads', 'Captions']
+import styles from "./VideoDataPage.module.css";
 
-interface VideoData {
+const manifestTabs = ['Videos', 'Comment Threads', 'Captions'];
+const manifestColumnHeaders = ['Filename', 'Video ID', 'Created At', 'Format'];
+const manifestTitles = ['Video Manifest', 'Comments Manifest'];
+
+interface ManifestDataStructure {
   filename: string;
+  video_id: string;
   created_at: string;
   format: string;
 }
 
 function VideoDataPage() {
-  const [videoManifest, setVideoManifest] = useState<VideoData[]>([]);
-
-  const fetchVideoManifest = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/viewVideoData/readVideoManifest");
-      setVideoManifest(response.data);
-    } catch (error) {
-      console.error("Error fetching video data:", error);
-    }
-  };
-
-  const refreshVideoManifest = async () => {
-    try {
-      await axios.post("http://localhost:3000/api/viewVideoData/updateVideoManifest");
-      fetchVideoManifest();
-    } catch (error) {
-      console.error("Error refreshing manifest:", error);
-    }
-  }
+  const [activeManifest, setActiveManifest] = useState('Videos');
+  const [videoManifest, setVideoManifest] = useState<ManifestDataStructure[]>([]);
+  const [commentsManifest, setCommentsManifest] = useState<ManifestDataStructure[]>([]);
 
   useEffect(() => {
-    // Call the fetchVideoManifest function when the component mounts
-    fetchVideoManifest();
+    document.title = 'VIDEO DATA';
+    fetchManifestData("readVideoManifest", setVideoManifest);
+    fetchManifestData("readCommentsManifest", setCommentsManifest);
   }, []);
 
   return (
     <div>
       <Navbar />
       <div className={styles["page-content"]}>
-        <div>
-          <h3 className={styles["page-description"]}>
-            Browse the raw JSON of videos, captions, and comment threads.
-          </h3>
-        </div>
-
+        <h3 className={styles["page-description"]}>
+          Browse the raw JSON of videos, captions, and comment threads.
+        </h3>
+        
         <div className={styles["manifest-buttons-container"]}>
-          {generateManifestTabs(manifestTabs)}
+          {generateManifestTabs(manifestTabs, setActiveManifest)}
         </div>
 
-        <div className={styles["video-manifest"]}>
-          <button onClick={refreshVideoManifest}>Refresh Manifest</button>
-          {generateVideoManifestTable({videoManifest})}
+        <div className={styles["manifest-table-container"]}>
+          <button className={styles["refresh-manifest"]} onClick={() => refreshManifest(activeManifest, activeManifest === "Videos" ? setVideoManifest : setCommentsManifest)}>
+            Refresh Manifest
+          </button>
+          {generateManifestTable({ 
+            manifestData: activeManifest === 'Videos' ? videoManifest : commentsManifest, 
+            columnHeaders: manifestColumnHeaders, 
+            title: activeManifest === 'Videos' ? manifestTitles[0] : manifestTitles[1] 
+          })}
         </div>
-
       </div>
     </div>
   );

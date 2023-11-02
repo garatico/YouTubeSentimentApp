@@ -1,0 +1,26 @@
+.page-content {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
+    gap: 10px; /* Add some spacing between grid items */
+}
+
+.channel-get-component {
+    margin: 10px;
+    border-radius: 5px;
+    width: 25vw;
+}
+
+#channel-get { background-color: darkcyan; }
+#playlist-get { background-color: darkgreen; }
+
+.channel-get-form {
+    margin: 10px;
+    padding: 10px;
+}
+
+.channel-get-desc {
+    margin-left: 20px;
+    font-style: italic;
+    font-size: 24px;
+}

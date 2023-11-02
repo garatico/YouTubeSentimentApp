@@ -10,7 +10,8 @@ app.use(cors());
 app.get('/', (req, res) => { res.send('Hello World!') })
 
 // Import and use the searchChannel / searchVideo route handler
-const searchChannelRoute = require('./routes/searchChannel');
+const searchChannelRoute = require('./routes/SearchChannelRoute/searchChannel');
+const searchPlaylistRoute = require('./routes/SearchPlaylistRoute/searchPlaylist');
 
 // Video Routes
 const searchVideoRoute = require('./routes/video/SearchVideoRoute/searchVideo');
@@ -19,6 +20,7 @@ const searchCommentThreadsRoute = require('./routes/video/SearchCommentThreadsRo
 const viewVideoData = require('./routes/video/ViewVideoData/viewVideoData');
 
 app.use('/api/searchChannel', searchChannelRoute);
+app.use('/api/searchPlaylist', searchPlaylistRoute);
 app.use('/api/searchVideo', searchVideoRoute);
 app.use('/api/searchCommentThreads', searchCommentThreadsRoute);
 app.use('/api/searchCaption', searchCaptionRoute);

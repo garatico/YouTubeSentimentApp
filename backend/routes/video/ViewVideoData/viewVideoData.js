@@ -56,4 +56,26 @@ router.post('/updateVideoManifest', (req, res) => {
   });
 });
 
+// READ COMMENTS MANIFEST ENDPOINT
+router.get('/readCommentsManifest', (req, res) => {
+  const videosDirectory = path.join(parentDirectory, 'data', 'raw');
+  const manifestFilePath = path.join(videosDirectory, 'raw_comments_manifest.json');
+
+  // Check if the manifest file exists
+  if (fs.existsSync(manifestFilePath)) {
+    // Read the manifest file
+    fs.readFile(manifestFilePath, 'utf-8', (err, data) => {
+      if (err) {
+        console.error('Error reading manifest file:', err);
+        res.status(500).json({ error: 'Internal server error' });
+      } else {
+        // Send the contents of the manifest file as a response
+        res.send(data);
+      }
+    });
+  } else {
+    res.status(404).json({ error: 'Manifest file not found' });
+  }
+})
+
 module.exports = router;

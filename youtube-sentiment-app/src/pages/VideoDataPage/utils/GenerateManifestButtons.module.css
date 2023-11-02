@@ -1,4 +1,17 @@
 .manifest-buttons-ul {
     list-style: none;
     display: flex;
+    gap: 10px;
+}
+
+.manifest-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+}
+
+.manifest-button:focus {
+    outline: none; /* Remove the default focus outline */
 }

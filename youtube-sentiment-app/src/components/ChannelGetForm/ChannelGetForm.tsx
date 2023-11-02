@@ -4,6 +4,8 @@ import axios from 'axios'; // Import Axios
 import RadioInputGroup from './RadioInputGroup';
 import InputField from './InputTextField';
 
+import styles from "./ChannelGetForm.module.css"; // Import the styles
+
 function ChannelGetForm() {
   const [channelInputType, setChannelInputType] = useState('name');
   const [channelInputValue, setChannelInputValue] = useState('');
@@ -47,7 +49,7 @@ function ChannelGetForm() {
   
   
   return (
-    <div>
+    <div className={styles["channel-get-form"]}>
       <form onSubmit={handleSubmit}>
         <RadioInputGroup inputType={channelInputType} onInputChange={handleInputChange} />
         <InputField inputType={channelInputType} placeholder={inputPlaceholder} onChange={handleInputValueChange} />

@@ -1,31 +1,35 @@
 import React from 'react';
 
-interface VideoData {
+interface ManifestDataStructure {
   filename: string;
+  video_id: string;
   created_at: string;
   format: string;
 }
 
-interface VideoManifestTableProps {
-  videoManifest: VideoData[];
+interface ManifestTableProps {
+  manifestData: ManifestDataStructure[];
+  columnHeaders: string[];
+  title: string;
 }
 
-const generateVideoManifestTable: React.FC<VideoManifestTableProps> = ({ videoManifest }) => {
+const generateManifestTable: React.FC<ManifestTableProps> = ({ manifestData, columnHeaders, title }) => {
   return (
     <div>
-      <h4>Video Manifest</h4>
+      <h4>{title}</h4>
       <table>
         <thead>
           <tr>
-            <th>Filename</th>
-            <th>Created At</th>
-            <th>Format</th>
+            {columnHeaders.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {videoManifest.map((video, index) => (
+          {manifestData.map((video, index) => (
             <tr key={index}>
               <td>{video.filename}</td>
+              <td>{video.video_id}</td>
               <td>{video.created_at}</td>
               <td>{video.format}</td>
             </tr>
@@ -36,4 +40,4 @@ const generateVideoManifestTable: React.FC<VideoManifestTableProps> = ({ videoMa
   );
 }
 
-export default generateVideoManifestTable;
+export default generateManifestTable;
