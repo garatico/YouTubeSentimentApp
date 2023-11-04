@@ -11,7 +11,6 @@ import styles from "./VideoGetForm.module.css"; // Import the styles
 
 // INTERFACE: Defines the expected shape of props VideoGetForm can receive.
 // Props:
-// endpoint: Represents the API endpoint for requests.
 interface VideoGetFormProps { endpoints: string[]; }
 
 function VideoGetForm({ endpoints }: VideoGetFormProps) {

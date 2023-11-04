@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { handleVideoRequest } = require("./utils/videoRequestHandler");
+const { videoHandleRoute } = require("./utils/videoHandleRoute")
 
 router.get("/", async (req, res) => {
-  handleVideoRequest(req, res);
+  videoHandleRoute(req, res);
 });
+
 
 module.exports = router;

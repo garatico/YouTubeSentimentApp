@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { handleCommentThreadsRequest } = require("./utils/commentThreadRequestHandler");
+const { commentThreadHandleRoute } = require("./utils/commentThreadHandleRoute");
 
 router.get('/', async (req, res) => {
-    handleCommentThreadsRequest(req, res);
+    commentThreadHandleRoute(req, res);
 });
 
 
