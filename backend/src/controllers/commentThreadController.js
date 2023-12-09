@@ -1,6 +1,12 @@
 // commentThreadController.js
 require("dotenv").config(); // Load environment variables from .env
 const { Pool } = require("pg");
+const axios = require("axios");
+const path = require("path");
+const fs = require("fs");
+
+const key = process.env.API_KEY;
+const { comment } = require('../../models');
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -10,10 +16,27 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+const commentThreadHandleRoute = async (req, res) => {
+  try {
+    const commentThreadExists = await commentThreadExistenceCheck(req);
+
+    if (commentThreadExists) {
+      console.log("Comments already exists in the database");
+      res.status(200).json({ message: "Comments already exists in the database", status: "data-exists" });
+    } else {
+      console.log("Making API call...");
+      commentThreadHandleRequest(req, res);
+    }
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error });
+  }
+};
+
 const commentThreadExistenceCheck = async (req) => {
   return new Promise((resolve, reject) => {
-    const queryText = "SELECT * FROM comments WHERE videoId = $1";
-    const values = [req.query.videoId];
+    const queryText = "SELECT * FROM comments WHERE comment_id = $1";
+    const values = [req.query.vidoeId];
 
     pool.query(queryText, values, (dbError, dbResult) => {
       if (dbError) {
@@ -43,13 +66,7 @@ const commentThreadHandleRequest = async (req, res) => {
     let nextPageToken = null;
     let page = 1;
 
-    let saveDirectory = path.join(
-      "..",
-      "data",
-      "raw",
-      "comment-threads",
-      videoId
-    );
+    let saveDirectory = path.join("..", "data", "raw", "comment-threads", videoId);
 
     if (!fs.existsSync(saveDirectory)) {
       fs.mkdirSync(saveDirectory, { recursive: true });
@@ -101,6 +118,5 @@ const commentThreadHandleRequest = async (req, res) => {
 };
 
 module.exports = {
-  commentThreadExistenceCheck,
-  commentThreadHandleRequest,
+  commentThreadHandleRoute
 };

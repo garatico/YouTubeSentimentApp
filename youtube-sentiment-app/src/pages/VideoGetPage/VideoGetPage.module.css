@@ -1,15 +1,23 @@
 .page-content {
-    margin: 10px;
+    margin: 5px;
+    gap: 5px; /* Add some spacing between grid items */
+}
+
+.page-description {
+    margin: 5px;
+    font-size: 24px;
+}
+
+.video-endpoints {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
-    gap: 10px; /* Add some spacing between grid items */
+    grid-template-columns: repeat(4, 1fr); /* Create 3 equal-width columns */
 }
 
 /* Increase the width of each column */
 .video-get-component {
     margin: 10px;
     border-radius: 5px;
-    width: 20vw;
+    width: 18vw;
 }
 
 #video-get { background-color: darkslateblue; }
@@ -18,12 +26,12 @@
 #all-get { background-color:  rgb(59, 0, 98); }
 
 .video-get-form {
-    margin: 10px;
-    padding: 10px;
+    margin: 5px;
+    padding: 5px;
 }
 
 .video-get-desc {
-    margin-left: 20px;
+    margin-left: 1rem;
     font-style: italic;
-    font-size: 24px;
+    font-size: 20px;
 }

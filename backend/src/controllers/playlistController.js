@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const key = process.env.API_KEY;
 
-async function handlePlaylistRequest(req, res) {
+const handlePlaylistRequest = async (req, res) => {
   try {
     const playlistId = req.query.playlistId;
     const part = "snippet%2CcontentDetails";

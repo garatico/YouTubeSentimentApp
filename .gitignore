@@ -18,3 +18,5 @@ analyses/src/video/__pycache__/
 analyses/src/comment-threads/__pycache__/
 analyses/.ipynb_checkpoints/
 
+# Ignore Configuration Files
+backend/config/

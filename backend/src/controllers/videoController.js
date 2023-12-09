@@ -1,6 +1,12 @@
-// videoThreadController.js
+// videoController.js
 require("dotenv").config(); // Load environment variables from .env
 const { Pool } = require("pg");
+const axios = require("axios");
+const path = require("path");
+const fs = require("fs");
+
+const key = process.env.API_KEY;
+const { video } = require('../../models');
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -9,6 +15,23 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
+
+const videoHandleRoute = async (req, res) => {
+  try {
+    const videoExists = await videoExistenceCheck(req);
+
+    if (videoExists) {
+      console.log("Video already exists in the database");
+      res.status(200).json({ message: "Video already exists in the database", status: "data-exists" });
+    } else {
+      console.log("Making API call...");
+      videoHandleRequest(req, res);
+    }
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).json({ error });
+  }
+};
 
 const videoExistenceCheck = async (req) => {
   return new Promise((resolve, reject) => {
@@ -59,8 +82,12 @@ const videoHandleRequest = async (req, res) => {
         videoData.fetchTimestamp = fetchTimestamp; // Add timestamp to the JSON data
         const filePath = path.join(saveDirectory, `${videoId}.json`);
         fs.writeFileSync(filePath, JSON.stringify(videoData));
+        
+        // Insert the video data into the database
+        await videoSaveToDatabase(videoData);
+
         res.status(200).json({
-          message: `Video data saved successfully \n Video data saved to ${filePath}`,
+          message: `Video data saved successfully \n Video data saved to ${filePath} and the database`,
           status: "success",
         });
       } else {
@@ -82,7 +109,39 @@ const videoHandleRequest = async (req, res) => {
   }
 };
 
+const videoSaveToDatabase = async (videoData) => {
+  try {
+    const videoDataToSave = {
+      video_id: videoData.items[0].id,
+      publishedat: videoData.items[0].snippet.publishedAt,
+      channelid: videoData.items[0].snippet.channelId,
+      channeltitle: videoData.items[0].snippet.channelTitle,
+      title: videoData.items[0].snippet.title,
+      description: videoData.items[0].snippet.description,
+      tags: videoData.items[0].snippet.tags,
+      duration: videoData.items[0].contentDetails.duration,
+      dimension: videoData.items[0].contentDetails.dimension,
+      definition: videoData.items[0].contentDetails.definition,
+      caption: videoData.items[0].contentDetails.caption,
+      licensedcontent: videoData.items[0].contentDetails.licensedContent,
+      projection: videoData.items[0].contentDetails.projection,
+      viewcount: parseInt(videoData.items[0].statistics.viewCount),
+      likecount: parseInt(videoData.items[0].statistics.likeCount),
+      favoritecount: parseInt(videoData.items[0].statistics.favoriteCount),
+      commentcount: parseInt(videoData.items[0].statistics.commentCount),
+      topiccategories: videoData.items[0].topicDetails.topicCategories,
+      fetchtimestamp: videoData.fetchTimestamp,
+    };
+
+    // Use Sequelize to upsert the video data
+    await video.upsert(videoDataToSave);
+
+    console.log("Video data saved to the database");
+  } catch (error) {
+    console.error("Error saving video data to the database:", error);
+  }
+};
+
 module.exports = {
-    videoExistenceCheck,
-    videoHandleRequest
+    videoHandleRoute
 }
