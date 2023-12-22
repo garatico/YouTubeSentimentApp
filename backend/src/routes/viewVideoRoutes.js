@@ -1,4 +1,5 @@
 // viewVideoData.js
+require("dotenv").config(); // Load environment variables from .env
 const express = require('express');
 const router = express.Router();
 const { spawn } = require('child_process'); // Import the child_process module
@@ -7,6 +8,9 @@ const path = require('path');
 
 const currentDirectory = process.cwd();
 const parentDirectory = path.dirname(currentDirectory);
+
+const dbVideoController = require("../controllers/dbVideoController");
+const dbVideoHandleRoute = dbVideoController.dbVideoHandleRoute;
 
 // READ VIDEO MANIFEST ENDPOINT
 router.get('/readVideoManifest', (req, res) => {
@@ -76,6 +80,12 @@ router.get('/readCommentsManifest', (req, res) => {
   } else {
     res.status(404).json({ error: 'Manifest file not found' });
   }
-})
+});
+
+// ================================================
+
+// READ VIDEO SQL DB ENDPOINT
+router.get('/readVideoDB', (req, res) => { dbVideoHandleRoute(req, res); });
+
 
 module.exports = router;

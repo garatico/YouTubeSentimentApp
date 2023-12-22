@@ -93,6 +93,10 @@ const captionsHandleRequest = async (req, res) => {
   }
 };
 
+const captionsSaveToDatabase = async (videoData) => {
+
+}
+
 module.exports = {
   captionsHandleRoute
 };

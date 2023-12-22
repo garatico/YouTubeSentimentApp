@@ -89,15 +89,16 @@ const commentThreadHandleRequest = async (req, res) => {
         if (videoData && videoData.items && videoData.items.length > 0) {
           const fetchTimestamp = new Date().toISOString(); // Generate a timestamp
           videoData.fetchTimestamp = fetchTimestamp; // Add timestamp to the JSON data
-          const filePath = path.join(
-            saveDirectory,
-            `${videoId} PAGE${page}.json`
-          );
+          const filePath = path.join(saveDirectory, `${videoId} PAGE${page}.json`);
           fs.writeFileSync(filePath, JSON.stringify(videoData));
 
           // Get the nextPageToken for the next iteration
           nextPageToken = videoData.nextPageToken;
           page++;
+
+          // 
+          await commentThreadSaveToDatabase(videoData);
+
         } else {
           // No more data to fetch, break out of the loop
           break;
@@ -116,6 +117,47 @@ const commentThreadHandleRequest = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+const commentThreadSaveToDatabase = async (commentThreadData, replyTimestamp = null) => {
+  const fetchTimestamp = replyTimestamp !== null ? replyTimestamp : commentThreadData.fetchTimestamp;
+
+  let comments = null;
+  if (replyTimestamp !== null) {
+    comments = commentThreadData.comments;
+    console.log(comments)
+  } else {
+    comments = commentThreadData.items;
+  }
+
+  for (const currentComment of comments) {
+    const commentThreadDataToSave = {
+      comment_id: currentComment.id,
+      channelid: currentComment.snippet.channelId,
+      videoid: currentComment.snippet.videoId,
+      canreply: currentComment.snippet.canReply,
+      totalreplycount: currentComment.snippet.totalReplyCount,
+
+      textdisplay: replyTimestamp !== null ? currentComment.snippet.textDisplay : currentComment.snippet.topLevelComment.snippet.textDisplay,
+      textoriginal: replyTimestamp !== null ? currentComment.snippet.textOriginal : currentComment.snippet.topLevelComment.snippet.textOriginal,
+      authordisplayname: replyTimestamp !== null ? currentComment.snippet.authorDisplayName : currentComment.snippet.topLevelComment.snippet.authorDisplayName,
+      authorchannelid: replyTimestamp !== null ? currentComment.snippet.authorChannelId.value : currentComment.snippet.topLevelComment.snippet.authorChannelId.value,
+      canrate: replyTimestamp !== null ? currentComment.snippet.canRate : currentComment.snippet.topLevelComment.snippet.canRate,
+      viewerating: replyTimestamp !== null ? currentComment.snippet.viewerRating : currentComment.snippet.topLevelComment.snippet.viewerRating,
+      likecount: replyTimestamp !== null ? currentComment.snippet.likeCount : currentComment.snippet.topLevelComment.snippet.likeCount,
+      publishedat: replyTimestamp !== null ? currentComment.snippet.publishedAt : currentComment.snippet.topLevelComment.snippet.publishedAt,
+      updatedat: replyTimestamp !== null ? currentComment.snippet.updatedAt : currentComment.snippet.topLevelComment.snippet.updatedAt,
+      parentid: replyTimestamp !== null ? currentComment.snippet.parentId : currentComment.snippet.topLevelComment.snippet.parentId,
+
+      fetchtimestamp: fetchTimestamp
+    };
+    if (currentComment.replies) {
+      await commentThreadSaveToDatabase(currentComment.replies, commentThreadDataToSave.fetchtimestamp);
+    }
+    // Push the asynchronous operation to an array
+    // and execute them using Promise.all outside the loop
+    await comment.upsert(commentThreadDataToSave);
+  }
+}
 
 module.exports = {
   commentThreadHandleRoute

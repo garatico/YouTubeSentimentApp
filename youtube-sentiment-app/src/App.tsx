@@ -3,6 +3,7 @@ import HomePage from "./pages/HomePage/HomePage"; // Import your home page compo
 import ChannelGetPage from "./pages/ChannelGetPage/ChannelGetPage";
 import VideoGetPage from "./pages/VideoGetPage/VideoGetPage";
 import VideoDataPage from "./pages/VideoDataPage/VideoDataPage";
+import VideoDBPage from "./pages/VideoDBPage/VideoDBPage";
 import DocumentationPage from "./pages/DocumentationPage/DocumentationPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/ChannelSearch" element={<ChannelGetPage />} />
             <Route path="/VideoSearch" element={<VideoGetPage />} />
             <Route path="/VideoDataPage" element={<VideoDataPage />} />
+            <Route path="/VideoDBPage" element={<VideoDBPage />} />
             <Route path="/DocumentationPage" element={<DocumentationPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

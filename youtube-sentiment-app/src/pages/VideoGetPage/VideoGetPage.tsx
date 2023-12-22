@@ -6,9 +6,7 @@ import VideoGetForm from "../../components/VideoGetForm/VideoGetForm";
 import styles from "./VideoGetPage.module.css"; // Import the styles
 
 function VideoGetPage() {
-  useEffect(() => {
-    document.title = "VIDEO";
-  }, []);
+  useEffect(() => { document.title = "VIDEO"; }, []);
   return (
     <div>
       <Navbar />
