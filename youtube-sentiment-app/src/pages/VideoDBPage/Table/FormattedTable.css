@@ -1,0 +1,23 @@
+/* FormattedTable.css */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 16px;
+    text-align: left;
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    padding: 8px 8px;
+    border-bottom: 1px solid black;
+    white-space: nowrap; /* Prevent text wrapping */
+    max-width: 250px; /* Set your desired maximum width */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Display an ellipsis (...) when content overflows */  
+  }
+  
+  .styled-table th {
+    background-color: #767676;
+  }
+  

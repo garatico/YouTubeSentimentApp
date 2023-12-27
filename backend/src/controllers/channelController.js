@@ -1,10 +1,22 @@
 // channelRequestHandler.js
+require("dotenv").config(); // Load environment variables from .env
+const { Pool } = require("pg");
 const axios = require("axios");
 const path = require("path");
 const fs = require("fs");
-const key = process.env.API_KEY;
 
-function buildChannelAPIurl(inputType, inputValue, part, key) {
+const key = process.env.API_KEY;
+const { channel } = require('../../models');
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: "localhost",
+  database: "YouTubeSentimentData",
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
+
+const buildChannelAPIurl = (inputType, inputValue, part, key) => {
   if (inputType == "id") {
     const id = inputValue;
     const channelAPIurl = `https://youtube.googleapis.com/youtube/v3/channels?part=${part}&id=${id}&key=${key}`;
@@ -16,7 +28,11 @@ function buildChannelAPIurl(inputType, inputValue, part, key) {
   }
 }
 
-async function handleChannelRequest(req, res) {
+const channelHandleRoute = async (req, res) => {
+  channelHandleRequest(req, res);
+}
+
+const channelHandleRequest = async (req, res) => {
   try {
     const inputType = req.query.channelInputType;
     const inputValue = req.query.channelInputValue;
@@ -44,10 +60,15 @@ async function handleChannelRequest(req, res) {
         channelData.fetchTimestamp = fetchTimestamp; // Add timestamp to the JSON data
         const filePath = path.join(saveDirectory, `${channelId}.json`);
         fs.writeFileSync(filePath, JSON.stringify(channelData));
+
+        // Insert the channel data into the database
+        await channelSaveToDatabase(channelData);
+
         res.status(200).json({
           message: `Video data saved successfully \n Video data saved to ${filePath}`,
           status: "success",
         });
+
       } else {
         res.status(200).json({
           message: "No data found for the given video ID",
@@ -67,7 +88,34 @@ async function handleChannelRequest(req, res) {
   }
 }
 
-module.exports = { handleChannelRequest };
+const channelSaveToDatabase = async (channelData) => {
+  try {
+    const channelDataToSave = {
+      channel_id: channelData.items[0].id,
+      title: channelData.items[0].snippet.title,
+      description: channelData.items[0].snippet.description,
+      customurl: channelData.items[0].snippet.customUrl,
+      publishedat: channelData.items[0].snippet.publishedAt,
+      country: channelData.items[0].snippet.country,
+
+      likesplaylist: channelData.items[0].contentDetails.relatedPlaylists.likes, 
+      uploadsplaylist: channelData.items[0].contentDetails.relatedPlaylists.uploads, 
+
+      viewcount: channelData.items[0].statistics.viewCount,
+      subscribercount: channelData.items[0].statistics.subscriberCount,
+      hiddensubscribercount: channelData.items[0].statistics.hiddenSubscriberCount,
+      videocount: channelData.items[0].statistics.videoCount,
+      fetchtimestamp: channelData.fetchTimestamp
+    };
+    // Use Sequelize to upsert the video data
+    await channel.upsert(channelDataToSave);
+    console.log("Video data saved to the database");
+  } catch (error) {
+    console.error("Error saving video data to the database:", error);
+  }
+};
+
+module.exports = { channelHandleRoute };
 
 // FROM THE UPLOADS PLAYLIST
 // "uploads": "UULLw7jmFsvfIVaUFsLs8mlQ"

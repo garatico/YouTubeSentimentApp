@@ -21,6 +21,9 @@ function Navbar() {
           </li>
           <li> | </li>
           <li>
+            <a href="/VideoDBPage">Video DB</a>
+          </li>
+          <li>
             <a href="/VideoDataPage">Video Data</a>
           </li>
           <li> | </li>
@@ -28,8 +31,6 @@ function Navbar() {
             <a href="/DocumentationPage">Documentation</a>
           </li>
         </ul>
-        <div className={styles["navbar-links"]}>
-        </div>
         <OutputHeader />
       </div>
     </nav>

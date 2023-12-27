@@ -142,6 +142,4 @@ const videoSaveToDatabase = async (videoData) => {
   }
 };
 
-module.exports = {
-    videoHandleRoute
-}
+module.exports = { videoHandleRoute }
